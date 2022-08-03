@@ -1,0 +1,13 @@
+	<div class = "sidebar">	
+		<div class="panel panel-info" style="" >
+			<div class="panel-heading"><h5>Pilihan Menu :</h5></div>
+			<div class="panel-body">
+				<a href="tentang.php" class="btn btn-info btn-block">Tentang  
+					<span class="fui-home"></span></a>
+				<a href="carilapak.php" class="btn btn-info btn-block">Pencarian Lapak
+					<span class="fui-search"></span></a>
+
+				
+			</div>
+		</div>
+	</div>

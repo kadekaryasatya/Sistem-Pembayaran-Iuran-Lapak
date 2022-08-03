@@ -1,0 +1,144 @@
+<?php
+//inisialisasi session
+session_start();
+
+include "connect.php";
+
+//mengecek username pada session
+if( !isset($_SESSION['log']) ){
+  echo"<script>
+			alert ('Login dulu BOS');
+	</script>";
+  header('Location: ../login.php');
+	exit;
+}
+ 
+
+?> 	
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="js/jquery-3.4.1.min.js"></script>
+	 
+  
+  <!-- Loading Flat UI Pro -->
+    <link href="css/flat-ui-pro.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon1.png">
+  
+</head>
+<body>
+
+<?php 
+//include the navigation bar
+include ("inc/navbar.php");?>
+
+<div class="container">
+	<br>
+	<br>
+  
+
+ <div class="row">
+    
+    <div class="col-md-9" name="maincontent" id="maincontent">
+		
+		<div id="exercise" name="exercise" class="panel panel-info">
+		<div class="panel-heading"><h5>Form Pencarian Nama Lapak</h5></div>
+			<div class="panel-body">
+			
+				Nama Lapak<br>
+				<p>
+				<form class="form-inline" role="form" name="" action="" method="POST">
+					<div class="form-group">
+					  <input id="search" class="form-control" name="nama_lapak" type="text" placeholder="Masukan Nama Lapak..">
+					  <input class="btn btn-embosed btn-primary" type="submit" value="Reset" id="tombol-cari">
+					</div>
+				</form>
+			
+				<hr>
+				<div id="tampil">
+					<table width="90%" class="table table-hover">
+						<thead>
+							<tr >
+								<th>Id lapak.</th>
+								<th>Nama Lapak</th>
+								<th>Nama Pemilik</th>
+								<th>Posisi Lapak</th>
+								
+							</tr>
+						</thead>
+						
+				<?php
+					$query ="select * from lapak";
+					$hasil = mysqli_query($conn, $query);
+                    while ($rekod = mysqli_fetch_array($hasil)) {
+					
+				?>	
+
+					<tr>
+						<td><?php echo $rekod['id_lapak']?></td>
+						<td><?php echo $rekod['nama_lapak']?></td>
+						<td><?php echo $rekod['nama_pemilik']?></td>
+						<td><?php echo $rekod['posisi_lapak']?></td>
+						<td><a a href="update-form.php?id_lapak=<?php echo $rekod['id_lapak']; ?> <?php echo $rekod['nama_lapak']; ?>"
+						class="btn btn-danger btn-block" data-toggle="tooltip"> Bayar Iuran
+						
+						
+					</tr>
+				<?php 
+						}
+				?>
+					</table>
+			</div>
+				<?php
+			
+			//end db search
+			?>
+			
+			<!-- ***********Edit your content ENDS here******** -->	
+			</div> <!--body panel main -->
+		</div><!--toc -->
+		
+    </div><!-- end main content -->
+
+    <div class="col-md-3">
+		<?php 
+		//include the sidebar menu
+		include ("inc/sidebar-menu.php");?>
+    </div><!-- end main menu -->
+  </div>
+</div><!-- end container -->
+
+
+<?php 
+//include the footer
+include ("inc/footer.php");?>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'search.php',
+                    data: {
+                        search: $(this).val()
+                    },
+                    cache: false,
+                    success: function(data) {
+                        $('#tampil').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
